@@ -1,57 +1,50 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, FlatList, Text, Button, TouchableOpacity } from 'react-native';
+import {View, StyleSheet, FlatList, Text, Button, TouchableOpacity} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-
 
 
 class ListTickets extends Component {
 
-  static navigationOptions = {
-        title: 'List Tickets',
-  };
-
-
-
+    static navigationOptions = {
+        title: 'Check-in',
+    };
 
     constructor(props) {
-
         super(props);
-        this.state = { eid: [] };
+        this.state = {eid: []};
 
     }
 
     componentDidMount() {
 
-      const { navigation } = this.props;
-      this.setState({eid: parseInt( JSON.stringify(navigation.getParam('eid', 0)) ) })
+        const {navigation} = this.props;
+        this.setState({eid: parseInt(JSON.stringify(navigation.getParam('eid', 0)))})
 
     }
 
-     async logout(){
+    async logout() {
 
-      await AsyncStorage.setItem( '@token', '' );
-      await AsyncStorage.setItem( '@isLoggedIn', '0' );
-      this.props.navigation.navigate('Login');
+        await AsyncStorage.setItem('@token', '');
+        await AsyncStorage.setItem('@isLoggedIn', '0');
+        this.props.navigation.navigate('Login');
     }
 
     render() {
 
-         return (
+        return (
 
 
-          <View style={styles.container}>
+            <View style={styles.container}>
 
-             <View style={styles.heading}>
-
-                <Text style={styles.heading}>{this.props.navigation.getParam( 'title' )}</Text>
-
-              </View>
-
-            <Button
-              title="Scan QR Code"
-              onPress={ () => this.props.navigation.navigate('ScanBarcode', { eid: this.state.eid } ) } />
-
-          </View>
+                <View style={styles.heading}>
+                    <Text style={styles.heading}>{this.props.navigation.getParam('title')}</Text>
+                </View>
+                <View style={styles.scan}>
+                    <Button
+                        title="Scan QR Code"
+                        onPress={() => this.props.navigation.navigate('ScanBarcode', {eid: this.state.eid})}/>
+                </View>
+            </View>
         )
 
     }
@@ -59,29 +52,31 @@ class ListTickets extends Component {
 }
 
 const styles = StyleSheet.create({
-   container: {
-      flex: 1,
-      flexDirection: 'column',
-      backgroundColor: '#fff',
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        backgroundColor: '#fff',
     },
-     item: {
-      padding: 10,
-      fontSize: 18,
+    item: {
+        padding: 10,
+        fontSize: 18,
 
-      borderTopWidth: 1,
-      borderBottomColor: '#000000',
-      height: 44,
+        borderTopWidth: 1,
+        borderBottomColor: '#000000',
+        height: 44,
     },
     heading: {
-      justifyContent: 'center',
-      flexDirection: 'row',
-      backgroundColor: '#f4511e',
-      color: '#fff',
-      fontWeight: 'bold',
-      fontSize: 20,
-      marginBottom: 10,
-      padding: 15
+        justifyContent: 'center',
+        flexDirection: 'row',
+        backgroundColor: '#58585a',
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 20,
+        padding: 10.5
 
+    },
+    scan: {
+        marginTop: 100
     }
 });
 
