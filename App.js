@@ -7,10 +7,9 @@
  */
 
 import React, {Component} from 'react';
-import { ActivityIndicator, StatusBar, StyleSheet, View } from 'react-native';
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-
+import {ActivityIndicator, StatusBar, StyleSheet, View} from 'react-native';
+import {createAppContainer, createSwitchNavigator} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
 
 
 import Login from './src/components/Login';
@@ -20,47 +19,47 @@ import AuthLoadingScreen from './src/components/AuthLoadingScreen';
 import ScanBarcode from './src/components/ScanBarcode';
 
 
-
-
-
-const AuthStack = createStackNavigator({ Login: Login });
+const AuthStack = createStackNavigator({Login: Login});
 
 const AppNavigator = createStackNavigator(
-  {
-    Events: Events,
-    ListTickets: ListTickets,
-    ScanBarcode: ScanBarcode
-  },
-  {
-
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: '#ED1C24',
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-      },
-
+    {
+        Events: Events,
+        ListTickets: ListTickets,
+        ScanBarcode: ScanBarcode
     },
-  }
+    {
 
+        defaultNavigationOptions: {
+            headerStyle: {
+                backgroundColor: '#E86C60',
+                flexDirection: 'row',
+                // flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+                justifyContent: 'center',
+                alignItems: 'center',
+            },
 
+        },
+    }
 );
 
 
 export default createAppContainer(
-  createSwitchNavigator(
-    {
-      AuthLoading: AuthLoadingScreen,
-      App: AppNavigator,
-      Auth: AuthStack,
-    },
-    {
-      initialRouteName: 'AuthLoading',
-    }
-  )
-
+    createSwitchNavigator(
+        {
+            AuthLoading: AuthLoadingScreen,
+            App: AppNavigator,
+            Auth: AuthStack,
+        },
+        {
+            initialRouteName: 'AuthLoading',
+        }
+    )
 );
 
 
@@ -70,7 +69,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 5,
-
         backgroundColor: '#c0d6f1'
     },
 

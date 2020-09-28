@@ -4,7 +4,7 @@ import {
     ImageBackground, ActivityIndicator, Image, View, StyleSheet, ScrollView, Text, TextInput,
     TouchableOpacity, Keyboard, Alert
 } from 'react-native';
-
+import CheckBox from '@react-native-community/checkbox';
 import checkLogin from '../api/checkLogin';
 import getToken from '../api/getToken';
 import LoginApi from '../api/LoginApi';
@@ -22,6 +22,7 @@ class Login extends Component {
             pass: '',
             secure_pass: true,
             loader: false,
+            isRemember: false,
         }
     }
 
@@ -49,6 +50,14 @@ class Login extends Component {
 
             const {user, pass} = this.state;
 
+            if (this.state.isRemember) {
+                await AsyncStorage.setItem('@user', user);
+                await AsyncStorage.setItem('@pass', pass);
+            } else {
+                await AsyncStorage.setItem('@user', '');
+                await AsyncStorage.setItem('@pass', '');
+            }
+
             await LoginApi(user, pass).then((resjson) => {
 
                 if (resjson.status === 'SUCCESS' && this.saveToStorage(resjson.token)) {
@@ -64,6 +73,18 @@ class Login extends Component {
                 this.setState({loader: false})
             });
         }
+    }
+
+    checkUserLog = async () => {
+        let user = await AsyncStorage.getItem('@user')
+        let pass = await AsyncStorage.getItem('@pass')
+        if (user && pass)
+            this.setState({isRemember: true})
+        this.setState({user: user, pass: pass})
+    }
+
+    componentDidMount() {
+        this.checkUserLog().then(r => null)
     }
 
     async saveToStorage(token) {
@@ -94,10 +115,6 @@ class Login extends Component {
                     style={styles.stretch}
                     source={require('../images/ISL_logo.png')}
                 />
-
-                <View style={styles.islTextPosition}>
-                    <Text style={styles.islText}>CREATIVE TICKET</Text>
-                </View>
 
                 <View style={styles.SectionStyle}>
                     <TextInput
@@ -133,11 +150,19 @@ class Login extends Component {
                                 style={styles.IconStyle}/>
                         </TouchableOpacity>}
                 </View>
-
+                <View style={{flexDirection: 'row', marginBottom: 10, backgroundColor: 'white', borderRadius: 2}}>
+                    <CheckBox
+                        tintColor={this.state.isRemember ? 'green' : 'black'}
+                        onValueChange={() => this.setState({isRemember: !this.state.isRemember})}
+                        style={{width: 18, height: 18, margin: 5, padding: 5}}
+                        value={this.state.isRemember}
+                    />
+                    <Text style={{color: 'black', margin: 5}}>Se souvenir de moi</Text>
+                </View>
                 <TouchableOpacity style={styles.btn} onPress={this._onLogin.bind(this)}>
                     {this.state.loader ? <ActivityIndicator size="small" color="#00ff00"/> :
                         <Text style={styles.btn_text}>
-                            Se connecter
+                            Se Connecter
                         </Text>}
                 </TouchableOpacity>
 
@@ -186,7 +211,7 @@ const styles = StyleSheet.create({
         height: 40,
         width: 120,
         borderRadius: 5,
-        backgroundColor: '#ED1C24',
+        backgroundColor: '#E86C60',
         borderColor: '#e86c60',
         alignItems: 'center',
         justifyContent: 'center'
@@ -194,24 +219,13 @@ const styles = StyleSheet.create({
     btn_text: {
         color: 'white',
         fontSize: 12,
-        borderRadius: 5,
-        fontWeight: "bold",
-    },
-    islText: {
-        color: '#ED1C24',
-        fontSize: 16,
-        fontWeight: "bold",
     },
     stretch: {
-        bottom: 30,
-        width: 200,
-        height: 200,
+        bottom: 10,
+        width: 250,
+        height: 250,
         resizeMode: 'contain',
-    },
-    islTextPosition: {
-        bottom: 20,
-        resizeMode: 'contain',
-    },
+    }
 });
 
 export default Login;

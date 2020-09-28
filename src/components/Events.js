@@ -66,33 +66,45 @@ class Events extends Component {
                     </TouchableOpacity>
                 </View>
 
+                {this.state.data.length ?
+                    <FlatList
+                        data={this.state.data}
+                        renderItem={({item, index}) =>
+                            <View style={{
+                                flex: 1,
+                                backgroundColor: index % 2 === 0 ? '#eee' : '#fcfcfc',
+                                padding: 5
+                            }}>
 
-                <FlatList
-                    data={this.state.data}
-                    renderItem={({item, index}) =>
-                        <View style={{
-                            flex: 1,
-                            backgroundColor: index % 2 === 0 ? '#eee' : '#fcfcfc',
-                            padding: 5
-                        }}>
+                                <TouchableWithoutFeedback
+                                    onPress={() => this.props.navigation.navigate('ListTickets', {
+                                        eid: parseInt(item.ID),
+                                        title: item.post_title
+                                    })}
+                                >
+                                    <View style={styles.item}>
+                                        <Text style={styles.itemindex}>{index + 1}</Text>
+                                        <Text style={styles.itemtext}>{item.post_title}</Text>
+                                    </View>
+                                </TouchableWithoutFeedback>
 
-                            <TouchableWithoutFeedback
-                                onPress={() => this.props.navigation.navigate('ListTickets', {
-                                    eid: parseInt(item.ID),
-                                    title: item.post_title
-                                })}
-                            >
-                                <View style={styles.item}>
-                                    <Text style={styles.itemindex}>{index + 1}</Text>
-                                    <Text style={styles.itemtext}>{item.post_title}</Text>
-                                </View>
-                            </TouchableWithoutFeedback>
+                            </View>
+                        }
+                        keyExtractor={item => item.post_title}
 
+                    /> :
+                    <View style={{
+                        backgroundColor: '#fcfcfc',
+                        padding: 5,
+                        height: 50,
+                        alignItems: "center"
+                    }}>
+                        <View style={styles.item}>
+                            <Text style={styles.itemtext}>Il n'y a pas d'événement</Text>
                         </View>
-                    }
-                    keyExtractor={item => item.post_title}
 
-                />
+                    </View>
+                }
 
             </ImageBackground>
         )
@@ -107,7 +119,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column'
     },
     button: {
-        // alignItems: "center",
         alignSelf: 'flex-end',
         backgroundColor: "#DDDDDD",
         padding: 10,
@@ -120,7 +131,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     itemindex: {
-
         color: '#000',
         marginRight: 15,
         fontWeight: 'bold',
@@ -135,7 +145,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 20,
         marginBottom: 30,
-        padding: 15
+        padding: 5
 
     }
 });

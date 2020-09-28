@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: 'bold',
         fontSize: 20,
-        padding: 10.5
+        padding: 6.5
 
     },
     scan: {

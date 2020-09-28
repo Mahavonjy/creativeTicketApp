@@ -6,11 +6,11 @@ const getToken = async () => {
         const token = await AsyncStorage.getItem('@token');
         const url = await AsyncStorage.getItem('@url');
         if (token !== null && url !== null) {
-            return [ url, token ];
+            return [url, token];
         }
         return '';
     } catch (error) {
-    // Error retrieving data
+        // Error retrieving data
         return '';
     }
 };

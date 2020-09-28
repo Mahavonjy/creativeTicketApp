@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {
-  ActivityIndicator,
-  StatusBar,
-  StyleSheet,
-  View,
+    ActivityIndicator,
+    StatusBar,
+    StyleSheet,
+    View,
 } from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -11,31 +11,33 @@ import AsyncStorage from '@react-native-community/async-storage';
 import getToken from '../api/getToken';
 import checkLogin from '../api/checkLogin';
 
-export default class AuthLoadingScreen extends Component{
+export default class AuthLoadingScreen extends Component {
 
-  constructor(props){
-    super(props);
-    this._loadData();
-  }
+    constructor(props) {
+        super(props);
+        this._loadData();
+    }
 
-  render(){
-    return(
-      <View style={ styles.container }>
-      <ActivityIndicator />
-      <StatusBar barStyle="default" />
-      </View>
-    );
-  }
+    render() {
+        return (
+            <View style={styles.container}>
+                <ActivityIndicator/>
+                <StatusBar barStyle="default"/>
+            </View>
+        );
+    }
 
 
-  _loadData = async() => {
+    _loadData = async () => {
 
-    getToken()
-    .then(token => checkLogin(token))
-    .then( (res) => { this.props.navigation.navigate( res.status === 'SUCCESS' ? 'App' : 'Auth' ); } )
-    .catch(err => this.props.navigation.navigate('Auth') );
+        getToken()
+            .then(token => checkLogin(token))
+            .then((res) => {
+                this.props.navigation.navigate(res.status === 'SUCCESS' ? 'App' : 'Auth');
+            })
+            .catch(err => this.props.navigation.navigate('Auth'));
 
-  }
+    }
 
 }
 
