@@ -1,4 +1,4 @@
-package com.creativeticket;
+package com.ticketscan;
 
 import android.app.Application;
 import android.content.Context;

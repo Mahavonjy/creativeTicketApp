@@ -11,7 +11,10 @@ class ListTickets extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {eid: []};
+        this.state = {
+            eid: [],
+            description: ""
+        };
 
     }
 
@@ -19,6 +22,13 @@ class ListTickets extends Component {
 
         const {navigation} = this.props;
         this.setState({eid: parseInt(JSON.stringify(navigation.getParam('eid', 0)))})
+        if (this.props.navigation.getParam('description')) {
+            this.setState({
+                description: this.props.navigation.getParam('description')
+                    .replace("<p>", "")
+                    .replace("</p>", "")
+            })
+        }
 
     }
 
@@ -33,11 +43,12 @@ class ListTickets extends Component {
 
         return (
 
-
             <View style={styles.container}>
 
                 <View style={styles.heading}>
                     <Text style={styles.heading}>{this.props.navigation.getParam('title')}</Text>
+                    <Text style={styles.headingT}>Description</Text>
+                    <Text style={styles.headingS}>{this.state.description}</Text>
                 </View>
                 <View style={styles.scan}>
                     <Button
@@ -66,12 +77,34 @@ const styles = StyleSheet.create({
         height: 44,
     },
     heading: {
-        justifyContent: 'center',
-        flexDirection: 'row',
+        textAlign: "center",
+        flexDirection: 'column',
         backgroundColor: '#58585a',
         color: '#fff',
         fontWeight: 'bold',
         fontSize: 20,
+        padding: 6.5
+
+    },
+    headingT: {
+        textAlign: "center",
+        flexDirection: 'column',
+        backgroundColor: '#58585a',
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 15,
+        padding: 6.5
+
+    },
+    headingS: {
+        textAlign: "center",
+        flexDirection: 'column',
+        backgroundColor: '#58585a',
+        color: '#fff',
+        marginLeft: 15,
+        marginRight: 15,
+        fontWeight: 'bold',
+        fontSize: 12,
         padding: 6.5
 
     },

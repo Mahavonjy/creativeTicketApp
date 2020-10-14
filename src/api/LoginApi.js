@@ -1,6 +1,5 @@
 const LoginApi = (user, pass) => (
-    fetch('https://creative-ticket.com/wp-json/meup/v1/login/',
-    {
+    fetch('https://creative-ticket.com/wp-json/meup/v1/login/', {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -11,10 +10,7 @@ const LoginApi = (user, pass) => (
             user: user,
             pass: pass,
         })
-    })
-    .then( res => res.json() )
-
-
+    }).then(res => res.json())
 );
 
 module.exports = LoginApi;

@@ -1,4 +1,4 @@
-package com.creativeticket;
+package com.ticketscan;
 
 import com.facebook.react.ReactActivity;
 

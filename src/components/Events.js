@@ -32,28 +32,19 @@ class Events extends Component {
     }
 
     componentDidMount() {
-        getToken()
-            .then(token => EventsApi(token))
-            .then((data) => {
-                console.log(data)
-                this.setState({data: (data.status === 'SUCCESS') ? data.events : ''})
-            })
-            .catch(err => console.log(err));
+        getToken().then(token => EventsApi(token)).then((data) => {
+            this.setState({data: (data.status === 'SUCCESS') ? data.events : ''})
+        }).catch(err => console.log(err));
     }
 
     async logout() {
-
         await AsyncStorage.setItem('@token', '');
         await AsyncStorage.setItem('@isLoggedIn', '0');
         this.props.navigation.navigate('Login');
     }
 
-
     render() {
-
         return (
-
-
             <ImageBackground
                 style={styles.container}
                 resizeMode='cover'
@@ -79,12 +70,18 @@ class Events extends Component {
                                 <TouchableWithoutFeedback
                                     onPress={() => this.props.navigation.navigate('ListTickets', {
                                         eid: parseInt(item.ID),
-                                        title: item.post_title
+                                        title: item.post_title,
+                                        description: item.post_content
                                     })}
                                 >
                                     <View style={styles.item}>
                                         <Text style={styles.itemindex}>{index + 1}</Text>
                                         <Text style={styles.itemtext}>{item.post_title}</Text>
+                                        <Text style={
+                                            item.comment_status === "open" ? styles.itemtextOpen : styles.itemtextClosed
+                                        }>
+                                            {item.comment_status === "open" ? "ouvert actuellement" : "fermé"}
+                                        </Text>
                                     </View>
                                 </TouchableWithoutFeedback>
 
@@ -130,12 +127,23 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row'
     },
+    itemtext: {
+        fontWeight: 'bold',
+    },
+    itemtextOpen: {
+        color: "green",
+        marginLeft: 20
+    },
+    itemtextClosed: {
+        color: "red",
+        marginLeft: 20
+    },
+
     itemindex: {
         color: '#000',
         marginRight: 15,
         fontWeight: 'bold',
     },
-
 
     heading: {
         // justifyContent: 'space-between',

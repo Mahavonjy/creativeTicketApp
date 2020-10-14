@@ -1,5 +1,4 @@
-fetch(token[0]+'wp-json/meup/v1/check_login/',
-{
+fetch(token[0] + 'wp-json/meup/v1/check_login/', {
     method: 'POST',
     headers: {
         Accept: 'application/json',
@@ -10,4 +9,4 @@ fetch(token[0]+'wp-json/meup/v1/check_login/',
         token: token[1],
     })
 })
-.then( res => res.json() )
+    .then(res => res.json())
